@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%block title%}Create a New Blog Category{%endblock%}
+
+{%block content%}
+{% if user.is_authenticated%}
+{%include 'navbar.html'%}
+<br>
+<h3>Add Category</h3>
+<div class="form-group col-8 md-3">
+<form method="POST">
+
+{%csrf_token%}
+{{form.as_p}}
+
+<button class="btn btn-primary">Add Category</button>
+</form>
+</div>
+{%else%}
+
+Access Denied! You must first sign up!
+
+{%endif%}
+
+{%endblock%}

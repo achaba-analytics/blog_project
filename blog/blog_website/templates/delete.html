@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{%block title%}Delete Post{%endblock%}
+
+{%block content%}
+{% if user.is_authenticated%}
+{%if user.id == post.author.id%}
+<br>
+<h3>Delete Post</h3>
+<br>
+<h3>Delete: {{post.title}}</h3>
+<div class="form-group col-8 md-3">
+<form method="POST">
+
+{%csrf_token%}
+
+<button class="btn btn-primary">Delete Post</button>
+</form>
+</div>
+
+{%else%}
+
+<h4 style="text-align: center; padding-top: 30px; color: crimson;">Permission Denied! You are not allowed to Delete this Post.</h4>
+
+{%endif%}
+
+{%else%}
+Access Denied!, You must first login.
+
+{%endif%}
+
+{%endblock%}

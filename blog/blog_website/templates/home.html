@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block content%}
+<br>
+<h2>Daily Post</h2>
+
+
+<ul>
+    {%for post in object_list%} <hr>
+    <li>
+       <a href="{%url 'article-detail' post.pk%}">{{post.title}}</a>  
+        
+       - <a href="{% url 'category' post.category%}">{{post.category}}</a>
+       - {{post.author.first_name}} 
+        {{post.author.last_name}} - {{post.pub_date}}
+        
+        <small>
+            
+            {% if user.is_authenticated%}
+                {%if user.id == post.author.id%}
+            <a href="{%url 'update' post.pk%}">(Edit)</a>
+        
+            <a href="{%url 'delete' post.pk%}">(Delete)</a>
+
+            {%endif%}
+            {%endif%}
+
+        </small><br>
+        {{post.body | slice:':200' | safe}}.... <a href="{%url 'article-detail' post.pk%}">Read More</a>
+    </li>
+    {%endfor%}
+</ul>
+
+
+    {%endblock%}
+

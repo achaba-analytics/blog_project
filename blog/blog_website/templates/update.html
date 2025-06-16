@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{%block title%}Edit Post{%endblock%}
+
+{%block content%}
+
+{% if user.is_authenticated%}
+{%if user.id == post.author.id%}
+<br>
+<h3>Update Post</h3>
+<div class="form-group col-8 md-3">
+    <form method="POST">
+
+        {%csrf_token%}
+        {{form.as_p}}
+
+        <button class="btn btn-primary">Update</button>
+    </form>
+</div>
+{%else%}
+
+<h4 style="text-align: center; padding-top: 30px; color: crimson;">Permission Denied! <br> You are not allowed to Edit this Post</h4>
+
+{%endif%}
+
+{%else%}
+
+Access Denied! You Can't Edit this Post
+
+{%endif%}
+
+{%endblock%}
