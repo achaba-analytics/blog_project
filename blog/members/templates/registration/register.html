@@ -2,17 +2,14 @@
 {%block title%}Sign Up{%endblock%}
 
 {%block content%}
-{%include 'navbar.html'%}
 <br>
 <h3>Sign Up</h3>
-<div class="form-group col-8 md-3">
-<form method="POST">
+<form method="POST" class="form-group card p-4">
 
 {%csrf_token%}
 {{form.as_p}}
 
 <button class="btn btn-primary">Sign Up</button>
 </form>
-</div>
 
 {%endblock%}

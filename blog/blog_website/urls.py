@@ -1,6 +1,6 @@
 from django.urls import path
 #from . import views
-from .views import HomeView, ArticleView, AddPostView, UpdateView, DeleteView, AddCategoryView, CategoryView, CategoryListView, LikeView
+from .views import HomeView, ArticleView, AddPostView, UpdateView, AddCategoryView, CategoryView, CategoryListView, LikeView, DeleteView #delete_article
 
 urlpatterns = [
     #path('', views.home, name='home')
@@ -13,4 +13,5 @@ urlpatterns = [
     path('category/<str:cats>/', CategoryView, name='category'),
     path('category-list/', CategoryListView, name='category_list'),
     path('like/<int:pk>', LikeView, name='like_post'),
+    #path('delete/<int:pk>/', delete_article, name='delete'),
 ]

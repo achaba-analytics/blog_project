@@ -1,35 +1,73 @@
 {%extends 'base.html'%}
+{%load static%}
 {%block content%}
 <br>
-<h2>Daily Post</h2>
-
 
 <ul>
-    {%for post in object_list%} <hr>
+
+    {%for post in object_list%}
     <li>
-       <a href="{%url 'article-detail' post.pk%}">{{post.title}}</a>  
-        
-       - <a href="{% url 'category' post.category%}">{{post.category}}</a>
-       - {{post.author.first_name}} 
-        {{post.author.last_name}} - {{post.pub_date}}
-        
-        <small>
-            
-            {% if user.is_authenticated%}
-                {%if user.id == post.author.id%}
-            <a href="{%url 'update' post.pk%}">(Edit)</a>
-        
-            <a href="{%url 'delete' post.pk%}">(Delete)</a>
+        <div class="card">
+            <h5 class="card-header"><a href="{%url 'article-detail' post.pk%}">{{post.title}}</a></h5>
+            <div class="card-body">
 
-            {%endif%}
-            {%endif%}
+                <a href="{%url 'article-detail' post.pk%}">{{post.title}}</a>
 
-        </small><br>
-        {{post.body | slice:':200' | safe}}.... <a href="{%url 'article-detail' post.pk%}">Read More</a>
+                - <a href="{% url 'category' post.category%}">{{post.category}}</a>
+                - {{post.author.first_name}}
+                {{post.author.last_name}} - {{post.pub_date}}
+
+                <small>
+
+                    {% if user.is_authenticated%}
+                    {%if user.id == post.author.id%} <br> <br>
+                    <a href="{%url 'update' post.pk%}"><button class="btn btn-primary btn-sm" id="edit"> Edit </button></a>
+                    <button class="btn btn-danger btn-sm" data-bs-target="#deleteModal" data-bs-toggle="modal"
+                        data-id="{{post.pk}}">Delete</button>
+
+                    {%endif%}
+                    {%endif%}
+
+                </small><br> <br>
+                <a href="{%url 'article-detail' post.pk%}" class="btn btn-primary">{{post.snippet}}</a>
+            </div>
+        </div> <br>
+
+
     </li>
     {%endfor%}
 </ul>
 
+<!-- confirm_delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Employee?
+            </div>
+            <div class="modal-footer">
+                <form method="POST" id="deleteForm">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Confirm, Delete</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const postId = button.getAttribute('data-id')
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = `/delete/${postId}/`;
+    })
+</script>
 
-    {%endblock%}
 
+{%endblock%}

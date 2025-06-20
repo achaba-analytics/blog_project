@@ -2,10 +2,14 @@
 <title>{%block title%}Blog Categories{%endblock title%}</title>
 
 {%block content%}
+<br>
 <h2>Blog Categories</h2>
+<div class="form-group card p-4">
 
 
-    {%for item in cat_menu_list%}
+    {%for item in cat_menu_list%} <hr>
     <h4><a class="dropdown-item" href="{% url 'category' item%}">{{item}}</a></h4>
     {%endfor%}
+
+</div>
 {%endblock%}
