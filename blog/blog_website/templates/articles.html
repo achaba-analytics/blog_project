@@ -4,15 +4,23 @@
 
 {%block content%}
 <br>
-<h3>{{post.title}}</h3>
+
+  <div class="card text-center">
+  <div class="card-body">
+    <h1 class="card-text" style="color: dodgerblue;">{{post.title}}</h1> <br>
+    <a href="{%url 'home'%}" class="btn btn-primary">Explore</a>
+  </div>
+</div>
+
 <br>
 <small>By: {{post.author.first_name}} {{post.author.last_name}} - {{post.pub_date}}
 {% if user.is_authenticated%}
     {%if user.id == post.author.id%}
-- <a href="{%url 'update' post.pk%}"><button class="btn btn-primary btn-sm"> Edit </button></a>
-<button class="btn btn-danger btn-sm" data-bs-target="#deleteModal" data-bs-toggle="modal" data-id="{{post.pk}}">Delete</button>
+- <small><a href="{%url 'update' post.pk%}"><button class="btn btn-primary btn-sm"> Edit </button></a></small> 
+  <small><a href="{%url 'delete' post.pk%}"><button class="btn btn-danger btn-sm" id="delete"> Delete </button></a></small> 
+
 {%else%}
-<p>You are not allowed to edit this Post</p>
+<p class="card p-4">You are not allowed to edit this Post</p>
 {%endif%}
 {%endif%}
 </small><br>
@@ -26,7 +34,7 @@
 
 {{post.body | safe}}
 <br> <br>
-<a href="{%url 'home'%}"><button type="button" class="btn btn-primary">Back</button></a>
+<a href="{%url 'home'%}"><button type="button" class="btn btn-primary" style="padding: 10px; font-size: 1rem;">Back</button></a>
 <hr>
 <br>
 <form action="{%url 'like_post' post.pk%}" method="POST">
@@ -49,7 +57,7 @@
     <div class="col-md-2">
       {%if post.author.profile.profile_pic.url%}
       <!-- <img src="{{post.author.profile.profile_pic.url}}"  class="profile-pic" alt="Profile Picture">-->
-     <img src="{{post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" alt="Profile Picture">
+     <img src="{{post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" alt="Profile Picture" style="padding: 20px 10px; border-radius: 50%;">
       
      {%else%}
      <img src="{%static 'images/user.jpg'%}" alt="Profile Picture">
@@ -81,37 +89,5 @@
     </div>
   </div>
 </div>
-
-<!-- confirm_delete -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this Post?
-      </div>
-      <div class="modal-footer">
-        <form method="POST" id="deleteForm">
-            {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Confirm, Delete</button>
-        </form>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function(event){
-        const button = event.relatedTarget;
-        const postId = button.getAttribute('data-id')
-        const deleteForm = document.getElementById('deleteForm');
-        deleteForm.action = `/delete/${postId}/`;
-    })
-</script>
-
 
 {%endblock%}

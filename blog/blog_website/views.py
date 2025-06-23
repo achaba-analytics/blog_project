@@ -85,16 +85,16 @@ class UpdateView(UpdateView):
         context['cat_menu'] = cat_menu
         return context
 
-#class DeletePostView(DeleteView):
-    #model = Post
-    #form_class = 
-    #success_url = reverse_lazy('home')
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = 'delete.html'
+    success_url = reverse_lazy('home')
     
 
-#def delete_article(request, pk):
-    #article = Post.objects.get(id=pk)
-    #if request.method == "POST":
-        #article.delete()
+#def DeletePost(request, pk):
+    #post = Post.objects.get(id=pk)
+    #if request.method == 'POST':
+        #post.delete()
         #return redirect('home')
      
 class AddPostView(CreateView):
